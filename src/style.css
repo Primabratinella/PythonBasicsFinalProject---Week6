@@ -2,86 +2,132 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: sans-serif;
+    font-family: "Segoe UI", sans-serif;
   }
   
   body {
-    background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+    background: linear-gradient(135deg, #74ebd5, #acb6e5);
     min-height: 100vh;
-    color: #333;
-  }
-  
-  nav {
-    text-align: center;
-    padding: 1rem;
-    font-size: 1.5rem;
-    font-weight: bold;
-  }
-  
-  .hero {
     display: flex;
+    align-items: center;
     justify-content: center;
+    margin: 0;
+  }
+  
+  .app {
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    padding-top: 10px; /* instead of big spacing */
+  }
+  
+  h1 {
+    margin-bottom: 20px;
+  }
+  
+  .search {
+    display: flex;
     gap: 10px;
-    padding: 2rem;
+    margin-bottom: 15px;
   }
   
-  input {
-    padding: 10px;
-    border-radius: 10px;
+  .search input {
+    flex: 1;
+    padding: 12px;
+    border-radius: 12px;
     border: none;
-    width: 200px;
   }
   
-  button {
-    padding: 10px 15px;
+  .search button {
+    padding: 12px 16px;
     border: none;
-    border-radius: 10px;
+    border-radius: 12px;
     background: #ffcc70;
     cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .search button:hover {
+    transform: scale(1.05);
   }
   
   .card {
     background: rgba(255,255,255,0.2);
-    backdrop-filter: blur(10px);
-    padding: 2rem;
-    margin: 1rem auto;
-    width: 90%;
-    max-width: 400px;
+    backdrop-filter: blur(15px);
     border-radius: 20px;
-    text-align: center;
+    padding: 20px;
+    margin-top: 15px;
+  }
+  
+  .current {
+    font-size: 1.5rem;
   }
   
   .forecast {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    grid-template-columns: repeat(5, 1fr); /* 👈 FORCE 5 IN A ROW */
     gap: 10px;
-    padding: 1rem;
+    margin-top: 15px;
   }
   
   .forecast div {
     background: white;
-    padding: 10px;
-    border-radius: 10px;
+    border-radius: 12px;
+    padding: 12px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  #status {
+    height: 20px;
+    font-size: 0.9rem;
+    color: #333;
   }
   
   footer {
-    text-align: center;
-    padding: 1rem;
+    margin-top: 20px;
+    font-size: 0.8rem;
   }
   
-  /* 📱 Mobile optimization */
-  @media (max-width: 600px) {
-    .hero {
+  /* 📱 Mobile perfection */
+  @media (max-width: 500px) {
+    .search {
       flex-direction: column;
-      align-items: center;
     }
   
-    input {
-      width: 100%;
-    }
-  
-    button {
+    .search button {
       width: 100%;
     }
   }
+
+  #hourlyChart {
+    margin-top: 20px;
+    background: white;
+    border-radius: 12px;
+    padding: 10px;
+  }
+  
+  #map {
+    height: 300px;
+    margin-top: 20px;
+    border-radius: 15px;
+    overflow: hidden;
+  }
+  
+  /* Dark mode support */
+  body.dark #hourlyChart {
+    background: #2c2c3a;
+  }
+
+  @media (max-width: 600px) {
+    .forecast {
+      grid-template-columns: repeat(2, 1fr); /* 2 per row on phones */
+    }
+  }
+

@@ -3,33 +3,45 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Weather App</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <title>Weather Palette</title>
   <link rel="stylesheet" href="src/style.css"/>
 </head>
 <body>
 
-  <nav>
-    <h1>🌤️ Weather App</h1>
-  </nav>
+  <div class="app">
+    <h1>🌤️ Weather Palette</h1>
 
-  <section class="hero">
-    <input type="text" id="cityInput" placeholder="Enter city..." />
-    <button onclick="getWeather()">Search</button>
-  </section>
-
-  <section id="weatherContainer" class="hidden">
-    <div class="card current">
-      <h2 id="cityName"></h2>
-      <p id="currentTemp"></p>
+    <div class="search">
+      <input id="cityInput" type="text" placeholder="Enter a city..." />
+      <button id="searchBtn">Search</button>
     </div>
 
-    <div class="forecast" id="forecast"></div>
-  </section>
+    <p id="status"></p>
 
-  <footer>
-    <p>Built by Karen Berglund 💙</p>
-  </footer>
+    <div id="weatherContainer" class="hidden">
+      <div class="card current">
+        <h2 id="cityName"></h2>
+        <p id="currentTemp"></p>
+      </div>
 
-<script src="src/index.js"></script>
+      <div id="forecast" class="forecast"></div>
+    </div>
+
+    <!-- 🌡️ Hourly Chart -->
+    <canvas id="hourlyChart" class="hidden"></canvas>
+
+    <!-- 🗺️ Map -->
+    <div id="map" class="hidden"></div>
+
+    <footer>Built by Karen Berglund 💙</footer>
+  </div>
+
+  <!-- IMPORTANT: correct path -->
+  <script src="src/index.js"></script>
 </body>
 </html>
