@@ -1,4 +1,4 @@
-const apiKey = "YOUR_API_KEY";
+const apiKey = "a08f0oc3b4t11e51a8dbab6fef7e5923";
 
 function getWeather() {
   const city = document.getElementById("cityInput").value;
@@ -31,3 +31,8 @@ function getWeather() {
       });
     });
 }
+
+// 👇 ADD THIS LINE RIGHT HERE (bottom of file)
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelector("button").addEventListener("click", getWeather);
+  });
