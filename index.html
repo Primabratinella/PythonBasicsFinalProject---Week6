@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Weather App</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+  <nav>
+    <h1>🌤️ Weather App</h1>
+  </nav>
+
+  <section class="hero">
+    <input type="text" id="cityInput" placeholder="Enter city..." />
+    <button onclick="getWeather()">Search</button>
+  </section>
+
+  <section id="weatherContainer" class="hidden">
+    <div class="card current">
+      <h2 id="cityName"></h2>
+      <p id="currentTemp"></p>
+    </div>
+
+    <div class="forecast" id="forecast"></div>
+  </section>
+
+  <footer>
+    <p>Built by Karen Berglund 💙</p>
+  </footer>
+
+<script src="app.js"></script>
+</body>
+</html>
