@@ -21,7 +21,6 @@ function getWeather() {
   }
 
   status.innerText = "Loading...";
-
   status.scrollIntoView({ behavior: "smooth" });
 
   // CURRENT WEATHER
@@ -41,7 +40,6 @@ function getWeather() {
       loadMap(data.coordinates.latitude, data.coordinates.longitude);
 
       status.innerText = "";
-      status.scrollIntoView({ behavior: "smooth" });
     })
     .catch(() => {
       status.innerText = "❌ Error fetching weather";
@@ -51,6 +49,12 @@ function getWeather() {
   fetch(`https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}&units=imperial`)
     .then(res => res.json())
     .then(data => {
+
+        if (!data || !data.city) return;
+      
+        const message = `The weather in ${data.city} is ${Math.round(data.temperature.current)} degrees Fahrenheit.`;
+      
+        speak(message);
 
         const forecastDiv = document.getElementById("forecast");
         forecastDiv.innerHTML = "";
@@ -130,6 +134,31 @@ function loadMap(lat, lon) {
     }, 100);
   }
 
+const SpeechRecognition =
+window.SpeechRecognition || window.webkitSpeechRecognition;
+
+const recognition = new SpeechRecognition();
+recognition.lang = "en-US";
+
+document.getElementById("voiceBtn").addEventListener("click", () => {
+  recognition.start();
+  document.getElementById("status").innerText = "🎤 Listening...";
+});
+
+recognition.onresult = function(event) {
+    let transcript = event.results[0][0].transcript.toLowerCase();
+  
+    transcript = extractCity(transcript); // ✅ USE IT HERE
+  
+    document.getElementById("cityInput").value = transcript;
+  
+    document.getElementById("status").innerText =
+      "Processing: " + transcript;
+  
+    getWeather();
+  };
+
+
 // ✅ EVENTS
 document.getElementById("searchBtn").addEventListener("click", getWeather);
 
@@ -138,3 +167,12 @@ document.getElementById("cityInput").addEventListener("keypress", function(e) {
     getWeather();
   }
 });
+
+
+function speak(text) {
+    const speech = new SpeechSynthesisUtterance(text);
+    speech.rate = 1;
+    speech.pitch = 1;
+    window.speechSynthesis.speak(speech);
+  }
+
