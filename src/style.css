@@ -115,8 +115,9 @@
   
   #map {
     height: 300px;
+    width: 100;
     margin-top: 20px;
-    border-radius: 15px;
+    border-radius: 12px;
     overflow: hidden;
   }
   
@@ -130,4 +131,46 @@
       grid-template-columns: repeat(2, 1fr); /* 2 per row on phones */
     }
   }
-
+  .weather-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Forecast cards row */
+  .forecast {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+  
+  /* Each card */
+  .forecast div {
+    background: white;
+    padding: 10px;
+    border-radius: 12px;
+    text-align: center;
+    width: 80px;
+  }
+  
+  /* MAP FIX */
+  #map {
+    width: 100%;
+    max-width: 500px;
+    height: 250px;
+    margin-top: 20px;
+    border-radius: 12px;
+  }
+  #map {
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  }
+  footer a {
+    color: #4da3ff;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  footer a:hover {
+    text-decoration: underline;
+  }

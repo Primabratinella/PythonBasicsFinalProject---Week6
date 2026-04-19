@@ -1,3 +1,7 @@
+let conversationState = {
+    lastCity: null,
+    expectingFollowUp: false
+  };
 let chart;
 let map;
 
@@ -27,90 +31,83 @@ function getWeather() {
   fetch(`https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=imperial`)
     .then(res => res.json())
     .then(data => {
-      if (data.message) {
-        status.innerText = "❌ City not found";
-        return;
-      }
-
-      document.getElementById("weatherContainer").classList.remove("hidden");
-      document.getElementById("cityName").innerText = data.city;
-      document.getElementById("currentTemp").innerText =
-        Math.round(data.temperature.current) + "°F";
-
-      loadMap(data.coordinates.latitude, data.coordinates.longitude);
-
-      status.innerText = "";
-    })
+        console.log("FORECAST FULL:", data);
+        if (!data || !data.city) {
+            status.innerText = "❌ Forecast not available";
+            return;
+          }
+      
+        document.getElementById("weatherContainer").classList.remove("hidden");
+        document.getElementById("cityName").innerText = data.city;
+        document.getElementById("currentTemp").innerText =
+          Math.round(data.temperature.current) + "°F";
+      
+        loadMap(data.coordinates.latitude, data.coordinates.longitude);
+      
+        status.innerText = "";
+      })
     .catch(() => {
       status.innerText = "❌ Error fetching weather";
     });
 
   // FORECAST + CHART
   fetch(`https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}&units=imperial`)
-    .then(res => res.json())
-    .then(data => {
+  .then(res => res.json())
+  .then(data => {
+    if (!data || !data.city) return;
 
-        if (!data || !data.city) return;
-      
-        const message = `The weather in ${data.city} is ${Math.round(data.temperature.current)} degrees Fahrenheit.`;
-      
-        speak(message);
+    const forecastDiv = document.getElementById("forecast");
+    forecastDiv.innerHTML = "";
 
-        const forecastDiv = document.getElementById("forecast");
-        forecastDiv.innerHTML = "";
-      
-        // 🌤️ DAILY FORECAST (ALWAYS RUN THIS FIRST)
-        data.daily.slice(1,6).forEach(day => {
-          const date = new Date(day.time * 1000);
-          const dayName = date.toLocaleDateString("en-US", { weekday: "short" });
-      
-          forecastDiv.innerHTML += `
-            <div>
-              <p>${dayName}</p>
-              <img src="${day.condition.icon_url}" width="40"/>
-              <p>${Math.round(day.temperature.day)}°F</p>
-            </div>
-          `;
-        });
-      
-        // 🌡️ ONLY GUARD THE CHART (NOT THE WHOLE FUNCTION)
-        if (!data.hourly || data.hourly.length === 0) {
-          return; // safe now because cards already rendered
-        }
-      const hours = data.hourly.slice(0, 12);
+    if (!data.daily || data.daily.length === 0) { forecastDiv.innerHTML = "<p>No forecast available</p>"; return; }
 
-      const labels = hours.map(h => {
-        const date = new Date(h.time * 1000);
-        return date.getHours() + ":00";
-      });
+    data.daily.slice(1, 6).forEach(day => {
+      const date = new Date(day.time * 1000);
+      const dayName = date.toLocaleDateString("en-US", { weekday: "short" });
 
-      const temps = hours.map(h => Math.round(h.temperature));
-
-      if (chart) chart.destroy();
-
-      const ctx = document.getElementById("hourlyChart").getContext("2d");
-
-      chart = new Chart(ctx, {
-        type: "line",
-        data: {
-          labels,
-          datasets: [{
-            data: temps,
-            tension: 0.4,
-            fill: true
-          }]
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: { display: false }
-          }
-        }
-      });
-
-      document.getElementById("hourlyChart").classList.remove("hidden");
+      forecastDiv.innerHTML += `
+        <div>
+          <p>${dayName}</p>
+          <img src="${day.condition.icon_url.replace("http://", "https://")}" />
+          <p>${Math.round(day.temperature.day)}°F</p>
+        </div>
+      `;
     });
+
+    if (!data.hourly || data.hourly.length === 0) return;
+
+    const hours = data.hourly.slice(0, 12);
+
+    const labels = hours.map(h => {
+      const date = new Date(h.time * 1000);
+      return date.getHours() + ":00";
+    });
+
+    const temps = hours.map(h => Math.round(h.temperature));
+
+    if (chart) chart.destroy();
+
+    const canvas = document.getElementById("hourlyChart");
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+
+    chart = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels,
+        datasets: [{ data: temps, tension: 0.4, fill: true }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } }
+      }
+    });
+
+    document.getElementById("hourlyChart").classList.remove("hidden");
+  });
 }
+
 // ✅ MOVE THIS OUTSIDE getWeather (VERY IMPORTANT)
 function loadMap(lat, lon) {
     const mapEl = document.getElementById("map");
@@ -134,45 +131,92 @@ function loadMap(lat, lon) {
     }, 100);
   }
 
-const SpeechRecognition =
-window.SpeechRecognition || window.webkitSpeechRecognition;
+let recognition = null;
 
-const recognition = new SpeechRecognition();
-recognition.lang = "en-US";
+  const SpeechRecognition =
+  window.SpeechRecognition || window.webkitSpeechRecognition;
 
-document.getElementById("voiceBtn").addEventListener("click", () => {
-  recognition.start();
-  document.getElementById("status").innerText = "🎤 Listening...";
-});
+  if (SpeechRecognition) {
+    recognition = new SpeechRecognition();
+    recognition.lang = "en-US";
+
 
 recognition.onresult = function(event) {
     let transcript = event.results[0][0].transcript.toLowerCase();
+
+    if (conversationState.expectingFollowUp) {
+        if (transcript.includes("hourly")) {
+          speak("Showing hourly forecast");
+          // you can trigger chart reveal here
+          return;
+        }
+        if (transcript.includes("another city")) {
+            speak("Sure, tell me the city");
+            return;
+          }
+        }
   
     transcript = extractCity(transcript); // ✅ USE IT HERE
   
     document.getElementById("cityInput").value = transcript;
+
+    conversationState.lastCity = transcript;
+    conversationState.expectingFollowUp = true;
   
     document.getElementById("status").innerText =
       "Processing: " + transcript;
   
     getWeather();
   };
-
+  }
 
 // ✅ EVENTS
-document.getElementById("searchBtn").addEventListener("click", getWeather);
+document.addEventListener("DOMContentLoaded", function () {
 
-document.getElementById("cityInput").addEventListener("keypress", function(e) {
-  if (e.key === "Enter") {
-    getWeather();
-  }
+    document.getElementById("searchBtn").addEventListener("click", getWeather);
+  
+    document.getElementById("cityInput").addEventListener("keypress", function(e) {
+      if (e.key === "Enter") {
+        getWeather();
+      }
+    });
+
+    document.getElementById("voiceBtn").addEventListener("click", () => {
+      if (!recognition) {
+        alert("Voice not supported in this browser");
+        return;
+      }
+
+      recognition.start();
+      document.getElementById("status").innerText = "🎤 Listening...";
+    });
+    let typingTimer;
+
+  document.getElementById("cityInput").addEventListener("input", () => {
+    clearTimeout(typingTimer);
+
+    typingTimer = setTimeout(() => {
+      getWeather();
+    }, 1000);
+  });
+
 });
 
-
-function speak(text) {
+  function extractCity(text) {
+    text = text.replace("weather in", "");
+    text = text.replace("what's the weather in", "");
+    text = text.replace("show me weather in", "");
+    return text.trim();
+  }
+  function speak(text, callback) {
     const speech = new SpeechSynthesisUtterance(text);
+  
     speech.rate = 1;
     speech.pitch = 1;
+  
+    speech.onend = () => {
+      if (callback) callback();
+    };
+  
     window.speechSynthesis.speak(speech);
   }
-

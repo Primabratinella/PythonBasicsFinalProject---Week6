@@ -29,20 +29,24 @@
         <h2 id="cityName"></h2>
         <p id="currentTemp"></p>
       </div>
-
-      <div id="forecast" class="forecast"></div>
     </div>
 
-    <!-- 🌡️ Hourly Chart -->
+    <div class="weather-grid">
+        <div id="forecast" class="forecast"></div>
+        <div id="map" class="hidden"></div>
+      </div>
+
     <canvas id="hourlyChart" class="hidden"></canvas>
 
-    <!-- 🗺️ Map -->
-    <div id="map" class="hidden"></div>
-
-    <footer>Built by Karen Berglund 💙</footer>
+    <footer>
+        Built by Karen Berglund 💙 |
+        <a href="https://github.com/Primabratinella/PythonBasicsFinalProject---Week6" target="_blank" rel="noopener noreferrer">
+          Open Source Code
+        </a>
+      </footer>
   </div>
 
   <!-- IMPORTANT: correct path -->
-  <script src="src/index.js"></script>
+  <script src="src/index.js" ></script>
 </body>
 </html>
