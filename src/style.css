@@ -174,3 +174,84 @@
   footer a:hover {
     text-decoration: underline;
   }
+  /* GLOBAL */
+.app {
+    max-width: 1200px;
+    margin: auto;
+    padding: 16px;
+  }
+  
+  /* CURRENT CARD */
+  .current {
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  
+  /* FORECAST GRID */
+  .forecast {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+  }
+  
+  .forecast div {
+    background: #ffffff;
+    padding: 10px;
+    border-radius: 12px;
+    text-align: center;
+  }
+  
+  /* CHART + MAP */
+  .extras {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 20px;
+  }
+  
+  /* FIX MAP HEIGHT */
+  #map {
+    width: 100%;
+    height: 300px;
+    border-radius: 12px;
+  }
+  
+  /* FIX CHART */
+  #hourlyChart {
+    width: 100% !important;
+    height: 300px !important;
+  }
+  
+  /* ---------------- MOBILE (Razr / small phones) ---------------- */
+  @media (max-width: 600px) {
+  
+    .forecast {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  
+    .extras {
+      grid-template-columns: 1fr; /* stack */
+    }
+  
+    #map,
+    #hourlyChart {
+      height: 250px;
+    }
+  }
+  
+  /* ---------------- EXTRA SMALL (folded Razr) ---------------- */
+  @media (max-width: 400px) {
+  
+    .forecast {
+      grid-template-columns: 1fr; /* single column */
+    }
+  
+    h1 {
+      font-size: 20px;
+    }
+  
+    #map,
+    #hourlyChart {
+      height: 220px;
+    }
+  }
