@@ -176,6 +176,19 @@
   }
 
 
+
+.card {
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(14px);
+    border-radius: 20px;
+    padding: 20px;
+    margin-top: 15px;
+}
+
+.current {
+    font-size: 1.5rem;
+}
+
 .forecast {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -273,15 +286,4 @@ footer a:hover {
     }
   }
 
-
-
-
-
-
-  
-  .forecast div:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
-  }
-  
  
