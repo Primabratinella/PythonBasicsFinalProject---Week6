@@ -32,38 +32,6 @@
   }
   
 
-  
-  
-  /* 📱 Mobile perfection */
-  @media (max-width: 500px) {
-    .search {
-      flex-direction: column;
-    }
-  
-    .search button {
-      width: 100%;
-    }
-  }
-
-  #hourlyChart {
-    margin-top: 20px;
-    background: white;
-    border-radius: 12px;
-    padding: 10px;
-  }
-  
-  #map {
-    height: 300px;
-    width: 100;
-    margin-top: 20px;
-    border-radius: 12px;
-    overflow: hidden;
-  }
-  
-  /* Dark mode support */
-  body.dark #hourlyChart {
-    background: #2c2c3a;
-  }
 
   @media (max-width: 600px) {
     .forecast {
