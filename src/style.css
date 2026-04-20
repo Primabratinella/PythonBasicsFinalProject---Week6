@@ -31,25 +31,6 @@
     margin-bottom: 15px;
   }
   
-  .search input {
-    flex: 1;
-    padding: 12px;
-    border-radius: 12px;
-    border: none;
-  }
-  
-  .search button {
-    padding: 12px 16px;
-    border: none;
-    border-radius: 12px;
-    background: #ffcc70;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-  
-  .search button:hover {
-    transform: scale(1.05);
-  }
   
   .card {
     background: rgba(255,255,255,0.2);
@@ -70,25 +51,13 @@
     margin-top: 15px;
   }
   
-  .forecast div {
-    background: white;
-    border-radius: 12px;
-    padding: 12px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
+ 
   
   .hidden {
     display: none;
   }
   
-  #status {
-    height: 20px;
-    font-size: 0.9rem;
-    color: #333;
-  }
+
   
   
   /* 📱 Mobile perfection */
@@ -205,14 +174,47 @@
     height: 300px;
     border-radius: 12px;
   }
-  
-  /* FIX CHART */
-  #hourlyChart {
+
+
+.forecast {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    max-width: 700px;
+    margin: 20px auto;
+}
+.forecast div {
+    background: white;
+    border-radius: 16px;
+    padding: 16px;
+    text-align: center;
+    min-width: 100px;
+    font-size: 16px;
+    transition: transform 0.2s ease, box-shadow 0.2 ease;
+  }
+.forecast div:hover{
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+}
+
+
+#status {
+    height: 20px;
+    font-size: 0.9rem;
+    color: #333;
+  }
+.hidden {
+    display: none;
+}
+#hourlyChart {
     width: 100% !important;
     height: 300px !important;
+    max-width: 600px;
+    margin: 20px auto;
+    background: white;
+    border-radius: 12px;
+    padding: 10px;
   }
-  
-
 #map {
     width: 100%;
     max-width: 600px;
@@ -222,12 +224,10 @@
     overflow: hidden;
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
-
 footer {
     margin-top: 20px;
     font-size: 0.8rem;
 }
-
 footer a {
     color: #4da3ff;
     text-decoration: none;
@@ -236,7 +236,8 @@ footer a {
 footer a:hover {
     text-decoration: underline;
 }
-  @media (max-width: 600px) {
+
+@media (max-width: 600px) {
     .search {
         flex-direction: column;
     }
@@ -261,7 +262,7 @@ footer a:hover {
   }
   }
 
-  @media (max-width: 400px) {
+@media (max-width: 400px) {
     h1 {
       font-size: 20px;
     }
