@@ -66,7 +66,7 @@
   .forecast {
     display: grid;
     grid-template-columns: repeat(5, 1fr); /* 👈 FORCE 5 IN A ROW */
-    gap: 10px;
+    gap: 12px;
     margin-top: 15px;
   }
   
@@ -148,19 +148,20 @@
   /* Each card */
   .forecast div {
     background: white;
-    padding: 10px;
-    border-radius: 12px;
+    padding: 16px;
+    border-radius: 16px;
+    min-width: 100px;
     text-align: center;
-    width: 80px;
+    font-size: 16px;
   }
   
   /* MAP FIX */
   #map {
     width: 100%;
     max-width: 500px;
-    height: 250px;
-    margin-top: 20px;
-    border-radius: 12px;
+    height: 300px;
+    margin-top: 30px auto;
+    border-radius: 16px;
   }
   #map {
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
@@ -222,30 +223,44 @@
     height: 300px !important;
   }
   
-  /* ---------------- MOBILE (Razr / small phones) ---------------- */
+
+#map {
+    width: 100%;
+    max-width: 600px;
+    height: 300px;
+    margin: 30px auto;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+
   @media (max-width: 600px) {
-  
-    .forecast {
-      grid-template-columns: repeat(2, 1fr);
+    .search {
+        flex-direction: column;
     }
-  
-    .extras {
-      grid-template-columns: 1fr; /* stack */
+    .search button {
+        width: 100%;
     }
-  
-    #map,
-    #hourlyChart {
-      height: 250px;
-    }
+  .forecast {
+    display: flex;
+    overflow-x: auto;
+    gap: 12px;
+    padding-bottom: 10px;
   }
-  
-  /* ---------------- EXTRA SMALL (folded Razr) ---------------- */
+  .forecast div {
+    flex: 0 0 auto;
+    min-width: 90px;
+  }
+  .forecast::-webkit-scrollbar {
+    display: none;
+  }
+  .forecast {
+    scrollbar-width: none;
+  }
+  }
+
   @media (max-width: 400px) {
-  
-    .forecast {
-      grid-template-columns: 1fr; /* single column */
-    }
-  
     h1 {
       font-size: 20px;
     }
@@ -255,3 +270,16 @@
       height: 220px;
     }
   }
+
+
+
+
+
+
+  
+  .forecast div:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+  }
+  
+ 
