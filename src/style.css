@@ -31,32 +31,6 @@
     margin-bottom: 15px;
   }
   
-  
-  .card {
-    background: rgba(255,255,255,0.2);
-    backdrop-filter: blur(15px);
-    border-radius: 20px;
-    padding: 20px;
-    margin-top: 15px;
-  }
-  
-  .current {
-    font-size: 1.5rem;
-  }
-  
-  .forecast {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr); /* 👈 FORCE 5 IN A ROW */
-    gap: 12px;
-    margin-top: 15px;
-  }
-  
- 
-  
-  .hidden {
-    display: none;
-  }
-  
 
   
   
@@ -174,6 +148,7 @@
     height: 300px;
     border-radius: 12px;
   }
+
 
 
 
