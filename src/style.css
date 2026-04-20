@@ -130,6 +130,17 @@
     padding: 12px;
     border: none;
 }
+.search button {
+    padding: 12px 16px;
+    border: none;
+    border-radius: 12px;
+    background: #ffcc74;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.search button:hover {
+    transform: scale(1.08);
+}
 .card {
     background: rgba(255,255,255,0.2);
     backdrop-filter: blur(14px);
