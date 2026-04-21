@@ -16,109 +16,16 @@
   
   .app {
     width: 90%;
-    max-width: 500px;
-    text-align: center;
-    padding-top: 10px; /* instead of big spacing */
-  }
-  
-  h1 {
-    margin-bottom: 20px;
-  }
-  
-  .search {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 15px;
-  }
-  
-
-
-  @media (max-width: 600px) {
-    .forecast {
-      grid-template-columns: repeat(2, 1fr); /* 2 per row on phones */
-    }
-  }
-  .weather-grid {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  /* Forecast cards row */
-  .forecast {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    flex-wrap: wrap;
-  }
-  
-  /* Each card */
-  .forecast div {
-    background: white;
-    padding: 16px;
-    border-radius: 16px;
-    min-width: 100px;
-    text-align: center;
-    font-size: 16px;
-  }
-  
-  /* MAP FIX */
-  #map {
-    width: 100%;
-    max-width: 500px;
-    height: 300px;
-    margin-top: 30px auto;
-    border-radius: 16px;
-  }
-  #map {
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-  }
- 
-
-  /* GLOBAL */
-.app {
     max-width: 1200px;
     margin: auto;
-    padding: 16px;
-  }
-  
-  /* CURRENT CARD */
-  .current {
     text-align: center;
-    margin-bottom: 16px;
+    padding-top: 16px; /* instead of big spacing */
   }
   
-  /* FORECAST GRID */
-  .forecast {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 10px;
+h1 {
+    margin-bottom: 20px;
   }
-  
-  .forecast div {
-    background: #ffffff;
-    padding: 10px;
-    border-radius: 12px;
-    text-align: center;
-  }
-  
-  /* CHART + MAP */
-  .extras {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-top: 20px;
-  }
-  
-  /* FIX MAP HEIGHT */
-  #map {
-    width: 100%;
-    height: 300px;
-    border-radius: 12px;
-  }
-
-
-
+ 
 .search {
     display: flex;
     gap: 10px;
