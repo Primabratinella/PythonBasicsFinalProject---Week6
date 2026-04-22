@@ -178,6 +178,8 @@ recognition.onresult = function(event) {
 // ✅ EVENTS
 document.addEventListener("DOMContentLoaded", function () {
 
+    document.querySelector("#cityInput").value = "";
+
     document.getElementById("searchBtn").addEventListener("click", getWeather);
   
     document.getElementById("cityInput").addEventListener("keypress", function(e) {
@@ -201,9 +203,12 @@ document.addEventListener("DOMContentLoaded", function () {
     clearTimeout(typingTimer);
 
     typingTimer = setTimeout(() => {
+        const city = document.getElementById ("cityInput").value.trim();
+        if (city){
       getWeather();
-    }, 1000);
-  });
+    }
+}, 1000);
+});
 
 });
 
@@ -224,4 +229,4 @@ document.addEventListener("DOMContentLoaded", function () {
     };
   
     window.speechSynthesis.speak(speech);
-  }
+  };
