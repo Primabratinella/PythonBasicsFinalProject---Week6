@@ -113,6 +113,8 @@ function loadMap(lat, lon) {
     const mapEl = document.getElementById("map");
   
     mapEl.classList.remove("hidden");
+
+    mapEl.classList.remove ("map-visible");
   
     setTimeout(() => {
       if (map) map.remove();
@@ -128,9 +130,12 @@ function loadMap(lat, lon) {
         .openPopup();
   
       map.invalidateSize();
-    }, 100);
-  }
 
+    setTimeout(() => {
+        mapEl.classList.add("map-visible");
+    },100);
+  }, 200);
+}
 let recognition = null;
 
   const SpeechRecognition =

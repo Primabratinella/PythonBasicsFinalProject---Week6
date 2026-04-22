@@ -61,36 +61,46 @@ h1 {
     font-size: 1.5rem;
 }
 
+.forecast-card {
+    background: white;
+    border-radius: 16px;
+    padding: 12px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    transition: transform 0.2s ease;
+}
+
+.forecast-card:hover {
+    transform: translateY(-4px);
+}
 .forecast {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 16px;
-    margin-top: 20px;
-    align-items: stretch;
+    max-width: 700px;
+    margin: 20px auto;
 }
 .forecast div {
     background: white;
-    border-radius: 18px;
-    padding: 14px;
+    border-radius: 16px;
+    padding: 16px;
     text-align: center;
-    height: 100%;
-
-    width: clamp (90px, 18vw, 130px);
-    display: flex;
-    
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    
-    font-size: clamp (14px, 2vw, 16px);
+    min-width: 100%;
+    font-size: 16px;
     
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 
-    opacity: 0;
-    transform: translateY(10px);
-    animation: fadeInUp 0.4s ease forwards;
   }
 
+  .forecast-container {
+    display: grid;
+    grid-template-columns: repeat (auto-fit, minmax(120px, 1fr));
+    gap: 12px;
+    margin-top: 20px;
+  }
   .forecast div:nth-child(1) {animation-delay: 0.05s;}
   .forecast div:nth-child(2) {animation-delay: 0.1s;}
   .forecast div:nth-child(3) {animation-delay: 0.15s;}
@@ -102,10 +112,14 @@ h1 {
     box-shadow: 0 10px 20px rgba(0,0,0,0.15);
 }
 
-@keyframes fadeInUp {
+@keyframes mapFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+    }
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
     }
 }
 #status {
@@ -131,11 +145,17 @@ h1 {
     border-radius: 20px;
     margin-top: 30px;
     overflow: hidden;
+
     box-shadow: 0 8px 20px rgba(0,0,0,0.1), inset 0 1px rgba(255,255,255,0.2);
+    
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(20px) scale(1);
+
+    transition: all 0.5s ease;
+    will-change: transform, opacity;
 }
-.map-visible {
+#map.map-visible {
+    opacity: 1;
     animation: mapFadeIn 0.6s ease forwards;
 }
 footer {
@@ -164,18 +184,17 @@ footer a:hover {
     gap: 12px;
     padding: 10px;
     scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
 }
     .forecast div {
     flex: 0 0 auto;
-    scroll-snap-align: start;
+    min-width: 90px;
+    scroll-snap-align: center;
   }
     .forecast::-webkit-scrollbar {
     display: none;
   }
-    .forecast::before {
-    content: "";
-    min-width: 10px;
+    .forecast {
+    scrollbar-width: none;
   }
   }
 
@@ -194,6 +213,14 @@ footer a:hover {
     width: 100%;
     max-width: 650px;
     margin: 0 auto;
+  }
+
+  @media (max-width: 480px) {
+    .forecast-container {
+        grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+        gap: 8px;
+    }
+    
   }
 
   
