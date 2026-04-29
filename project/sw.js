@@ -1,5 +1,5 @@
 const CACHE_NAME = "weather-app-v1";
-consturlsToCache = [
+const urlsToCache = [
     "/",
     "/index.html",
     "/src/style.css",
@@ -8,7 +8,7 @@ consturlsToCache = [
 
 self.addEventListener("install", (event) => {
     event.waitUntil (
-        caches.open(CACHE_NAME).then((cache) => cache.addAll(urlToCache))
+        caches.open(CACHE_NAME).then((cache) => cache.addAll(urlsToCache))
         );
 });
 
