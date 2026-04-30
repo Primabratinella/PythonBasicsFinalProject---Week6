@@ -110,30 +110,29 @@ function getWeather() {
 
 // ✅ MOVE THIS OUTSIDE getWeather (VERY IMPORTANT)
 function loadMap(lat, lon) {
-    const mapEl = document.getElementById("map");
-  
-    mapEl.classList.remove("hidden");
+  const mapEl = document.getElementById("map");
 
-    mapEl.classList.remove ("map-visible");
-  
-    setTimeout(() => {
-      if (map) map.remove();
-  
-      map = L.map("map").setView([lat, lon], 10);
-  
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: "© OpenStreetMap"
-      }).addTo(map);
-  
-      L.marker([lat, lon]).addTo(map)
-        .bindPopup("Location")
-        .openPopup();
-  
-      map.invalidateSize();
+  mapEl.classList.remove("hidden");
+
+  setTimeout(() => {
+    if (map) map.remove();
+
+    map = L.map("map").setView([lat, lon], 10);
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: "© OpenStreetMap"
+    }).addTo(map);
+
+    L.marker([lat, lon]).addTo(map)
+      .bindPopup("Location")
+      .openPopup();
+
+    map.invalidateSize();
 
     setTimeout(() => {
-        mapEl.classList.add("map-visible");
-    },100);
+      mapEl.classList.add("map-visible");
+    }, 50);
+
   }, 200);
 }
 let recognition = null;
@@ -178,37 +177,32 @@ recognition.onresult = function(event) {
 // ✅ EVENTS
 document.addEventListener("DOMContentLoaded", function () {
 
-    document.querySelector("#cityInput").value = "";
+  document.querySelector("#cityInput").value = "";
 
-    document.getElementById("searchBtn").addEventListener("click", getWeather);
-  
-    document.getElementById("cityInput").addEventListener("keypress", function(e) {
-      if (e.key === "Enter") {
-        getWeather();
-      }
-    });
+  document.getElementById("searchBtn").addEventListener("click", getWeather);
 
-    document.getElementById("voiceBtn").addEventListener("click", () => {
-      if (!recognition) {
-        alert("Voice not supported in this browser");
-        return;
-      }
+  document.getElementById("voiceBtn").addEventListener("click", () => {
+    if (!recognition) {
+      alert("Voice not supported in this browser");
+      return;
+    }
 
-      recognition.start();
-      document.getElementById("status").innerText = "🎤 Listening...";
-    });
-    let typingTimer;
+    recognition.start();
+    document.getElementById("status").innerText = "🎤 Listening...";
+  });
+
+  let typingTimer;
 
   document.getElementById("cityInput").addEventListener("input", () => {
     clearTimeout(typingTimer);
 
     typingTimer = setTimeout(() => {
-        const city = document.getElementById ("cityInput").value.trim();
-        if (city){
-      getWeather();
-    }
-}, 1000);
-});
+      const city = document.getElementById("cityInput").value.trim();
+      if (city) {
+        getWeather();
+      }
+    }, 1000);
+  });
 
 });
 
@@ -233,8 +227,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
   window.addEventListener("load", () => {
   if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("sw.js")
+    navigator.serviceWorker.register("/sw.js")
     .then (() => console.log("Service Worker Registered"))
     .catch(err => console.log("SW failed:", err));
   }
 });
+
+let deferredPrompt;
+
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+});
+
+function installApp() {
+  if (!deferredPrompt) return;
+
+  deferredPrompt.prompt();
+  deferredPrompt.userChoice.then(() => {
+    deferredPrompt = null;
+  });
+}
